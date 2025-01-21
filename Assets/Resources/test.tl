@@ -1,4 +1,7 @@
-local message:string = "Hello from teal!"
+local record Vector3
+    x:number
+    y:number
+    z:number
+end
 
-printError(message)
 print(test)
