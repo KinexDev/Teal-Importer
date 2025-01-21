@@ -1,2 +1,4 @@
-printError("Hello from teal!")
+local message:string = "Hello from teal!"
+
+printError(message)
 print(test)

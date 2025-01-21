@@ -6,9 +6,17 @@ using UnityEditor;
 
 public class TealScriptAsset : ScriptableObject
 {
+    #if UNITY_EDITOR
+    public bool definitionFile;
+    #endif
     public string source;
     public string luaCode;
     public string error;
+
+    public bool HasError()
+    {
+        return !string.IsNullOrEmpty(error);
+    }
 }
 
 #if UNITY_EDITOR
@@ -20,9 +28,11 @@ public class TealScriptAssetEditor : Editor
     {
         var script = (TealScriptAsset)target;
         
-        EditorGUILayout.LabelField("Teal", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Source", EditorStyles.boldLabel);
         EditorGUILayout.TextArea(script.source);
-
+        
+        if (script.definitionFile) return;
+        
         if (!string.IsNullOrEmpty(script.error))
         {
             EditorGUILayout.Space(12f);
@@ -31,7 +41,7 @@ public class TealScriptAssetEditor : Editor
         }
         else
         {
-            EditorGUILayout.LabelField("Lua", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Compiled", EditorStyles.boldLabel);
             EditorGUILayout.TextArea(script.luaCode);
         }
     }

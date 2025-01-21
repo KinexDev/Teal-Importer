@@ -6,29 +6,9 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class TealCompiler : AssetPostprocessor
+public static class TealCompiler
 {
-    public static string global_environment
-    {
-        get
-        {
-            var completeDir = Application.dataPath.Substring(0, Application.dataPath.Length - 6) + "Assets/clr_methods.d.tl";
-            return completeDir;
-        }
-    }
-    public static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
-        string[] movedFromAssetPaths)
-    {
-        foreach (var asset in importedAssets)
-        {
-            if (asset.EndsWith(".tl"))
-            {
-                CheckTypes(asset);
-            }
-        }
-    }
-
-    public static void CheckTypes(string asset)
+    public static void CheckTypes(string asset, TealScriptAsset obj)
     {
         var completeDir = Application.dataPath.Substring(0, Application.dataPath.Length - 6) + asset;
         ProcessStartInfo psi = new ProcessStartInfo("cmd.exe", "/C " + $"tl check \"{completeDir}\"")
@@ -50,22 +30,18 @@ public class TealCompiler : AssetPostprocessor
             while (!process.HasExited)
             {
                 EditorUtility.DisplayProgressBar("Script Compilation", "Checking tl types.", 0f);
-                Thread.Sleep(500);
+                Thread.Sleep(10);
             }
 
             EditorUtility.ClearProgressBar();
 
             if (process.ExitCode != 0)
             {
-                var obj = AssetDatabase.LoadAssetAtPath<TealScriptAsset>(asset);
-                
                 var error = process.StandardError.ReadToEnd();
                 Application.SetStackTraceLogType(LogType.Error, StackTraceLogType.None);
                 Debug.LogError($"Checked script '{asset}' \n{error}");
-                obj.error = error;
-                AssetDatabase.SaveAssets();
-                
                 Application.SetStackTraceLogType(LogType.Error, StackTraceLogType.ScriptOnly);
+                obj.error = error;
                 
             }
             else
@@ -73,12 +49,12 @@ public class TealCompiler : AssetPostprocessor
                 Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
                 Debug.Log($"Checked script '{asset}' \n{process.StandardOutput.ReadToEnd()}");
                 Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.ScriptOnly);
-                CheckSyntax(asset);
+                CheckSyntax(asset, obj);
             }
         }
     }
 
-    public static void CheckSyntax(string asset)
+    public static void CheckSyntax(string asset, TealScriptAsset obj)
     {
         var completeDir = Application.dataPath.Substring(0, Application.dataPath.Length - 6) + asset;
         ProcessStartInfo psi = new ProcessStartInfo("cmd.exe", "/C " + $"tl gen \"{completeDir}\"")
@@ -100,10 +76,9 @@ public class TealCompiler : AssetPostprocessor
             while (!process.HasExited)
             {
                 EditorUtility.DisplayProgressBar("Script Compilation", "Compiling teal script.", 0f);
-                Thread.Sleep(500);
+                Thread.Sleep(10);
             }
 
-            var obj = AssetDatabase.LoadAssetAtPath<TealScriptAsset>(asset);
             var luaFileDir = completeDir.Substring(0, completeDir.Length - 2) + "lua";
 
 
@@ -120,8 +95,6 @@ public class TealCompiler : AssetPostprocessor
                 obj.luaCode = File.ReadAllText(luaFileDir);
                 File.Delete(luaFileDir);
             }
-
-            AssetDatabase.SaveAssets();
         }
     }
 }
