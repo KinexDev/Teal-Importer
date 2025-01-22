@@ -14,7 +14,7 @@ This currently only supports windows, but you could easily be extended to work o
 When you import/create a new `tl` file, it will automatically be converted to a `TealScriptAsset`, this contains the teal code along with the transpiled code and the errors in the script.
 
 # How It Works
-It opens up the command prompt and then tells the `tl` compiler to type check first, it then transpiles to lua, if any issues are found an error will be thrown in the console and the script will be tagged with the error.
+It opens up a hidden command prompt and then tells the `tl` compiler to type check first, it then transpiles to lua, if any issues are found an error will be thrown in the console and the script will be tagged with the error.
 
 ![image](https://github.com/user-attachments/assets/9278b320-c94b-4970-941e-69e7da9c917c)
 
