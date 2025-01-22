@@ -1,8 +1,10 @@
 # Teal-Importer
-Teal (statically typed lua) importer for unity.
+Teal (a statically typed superset of lua) importer for unity.
+
+![image](https://github.com/user-attachments/assets/fdad1077-d39e-4969-bdc5-79636f640ca0)
 
 # Requirements
-You need to have teal installed and set up in your environment variables.
+Teal must be installed and added to you environment variables.
 The download instructions are on the github https://github.com/teal-language/tl
 
 # Limitations
@@ -14,5 +16,46 @@ When you import/create a new `tl` file, it will automatically be converted to a 
 # How It Works
 It opens up the command prompt and then tells the `tl` compiler to type check first, it then transpiles to lua, if any issues are found an error will be thrown in the console and the script will be tagged with the error.
 
+![image](https://github.com/user-attachments/assets/9278b320-c94b-4970-941e-69e7da9c917c)
+
 # Declaration files
-Declaration files '.d.tl' are recognised by the `tl` compiler, they have to be explicitly defined inside `tlconfig.json`.
+Declaration files '.d.tl' are recognised by the `tl` compiler, they have to be explicitly defined inside `tlconfig.json` (this has to be stored in the assets folder)
+
+Example of `clr_methods.d.tl`
+```lua
+global printError:function(message:string)
+global test:number
+```
+# Execution
+The transpiled code is executed by moonsharp (a lua interpreter in C#), but it can be executed by any kind of lua interpreter.
+
+```cs
+using System;
+using UnityEngine;
+using MoonSharp;
+using MoonSharp.Interpreter;
+
+public class Example : MonoBehaviour
+{
+    public TealScriptAsset asset;
+    public void Start()
+    {
+        var script = new Script();
+
+        script.Globals["print"] = (Action<object>)print;
+        
+        //custom stuff defined in the declaration file
+        script.Globals["printError"] = (Action<string>)Debug.LogError;
+        script.Globals["test"] = 10;
+
+        if (asset.HasError())
+        {
+            Debug.LogError(asset.error);
+            return;
+        }
+
+        script.DoString(asset.luaCode);
+    }
+}
+
+```
