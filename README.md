@@ -1,5 +1,5 @@
 # Teal-Importer
-Teal (a statically typed superset of lua) importer for unity.
+Teal (a statically typed dialect of lua) importer for unity.
 
 ![image](https://github.com/user-attachments/assets/fdad1077-d39e-4969-bdc5-79636f640ca0)
 
