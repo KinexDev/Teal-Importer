@@ -19,7 +19,7 @@ It opens up the command prompt and then tells the `tl` compiler to type check fi
 ![image](https://github.com/user-attachments/assets/9278b320-c94b-4970-941e-69e7da9c917c)
 
 # Declaration files
-Declaration files '.d.tl' are recognised by the `tl` compiler, they have to be explicitly defined inside `tlconfig.json` (this has to be stored in the assets folder)
+Declaration files '.d.tl' are recognised by the `tl` compiler, they have to be explicitly defined inside `tlconfig.json` (the tl config has to be stored in assets, the declaration file can be moved but you need to specify the path in tlconfig)
 
 Example of `clr_methods.d.tl`
 ```lua
