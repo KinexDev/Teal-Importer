@@ -13,3 +13,6 @@ When you import/create a new `tl` file, it will automatically be converted to a 
 
 # How It Works
 It opens up the command prompt and then tells the `tl` compiler to type check first, it then transpiles to lua, if any issues are found an error will be thrown in the console and the script will be tagged with the error.
+
+# Declaration files
+Declaration files '.d.tl' are recognised by the `tl` compiler, they have to be explicitly defined inside `tlconfig.json`.
