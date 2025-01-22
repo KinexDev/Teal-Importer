@@ -16,7 +16,7 @@ public class Example : MonoBehaviour
         script.Globals["printError"] = (Action<string>)Debug.LogError;
         script.Globals["test"] = 10;
 
-        if (!asset.HasError())
+        if (asset.HasError())
         {
             Debug.LogError(asset.error);
             return;

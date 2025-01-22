@@ -1,7 +1,4 @@
-local record Vector3
-    x:number
-    y:number
-    z:number
-end
+local message:string = "Hello world!"
 
+printError(message)
 print(test)

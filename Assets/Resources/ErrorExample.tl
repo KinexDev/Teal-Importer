@@ -1,1 +1,1 @@
-printError(10)
+printError(test)
