@@ -27,7 +27,7 @@ global printError:function(message:string)
 global test:number
 ```
 # Execution
-The transpiled code is executed by moonsharp (a lua interpreter in C#), but it can be executed by any kind of lua interpreter.
+The transpiled code is executed by moonsharp (a lua interpreter in written C#), but it can be executed by any kind of lua interpreter.
 
 ```cs
 using System;
