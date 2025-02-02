@@ -7,6 +7,9 @@ Teal (a statically typed dialect of lua) importer for unity.
 Teal must be installed and added to your environment variables.
 The download instructions are on the github https://github.com/teal-language/tl
 
+# Note
+I have left this project to work on my own luau bindings, teal did not fit my needs.
+
 # Limitations
 This currently only supports windows, but you could easily be extended to work on other operating systems.
 
